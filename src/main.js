@@ -1,20 +1,38 @@
+/*
+ * @Description:
+ * @Company: huqu
+ * @Author: Sunny
+ * @Date: 2022-01-13 10:13:58
+ * @LastEditors: Sunny
+ * @LastEditTime: 2022-01-14 10:39:41
+ */
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
+
 import router from './router'
 import store from './store'
 import iView from 'iview'
+
 import i18n from '@/locale'
 import config from '@/config'
 import importDirective from '@/directive'
 import { directive as clickOutside } from 'v-click-outside-x'
 import installPlugin from '@/plugin'
+
 import './index.less'
 import '@/assets/icons/iconfont.css'
+
 import TreeTable from 'tree-table-vue'
 import VOrgTree from 'v-org-tree'
 import 'v-org-tree/dist/v-org-tree.css'
+import Header from '@/components/head/head.vue'
+
+
+Vue.component('common-header', Header)
+
+
 // 实际打包时应该不引入mock
 /* eslint-disable */
 if (process.env.NODE_ENV !== 'production') require('@/mock')

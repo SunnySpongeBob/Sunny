@@ -17,6 +17,142 @@ export const getToken = () => {
   if (token) return token
   else return false
 }
+// 将菜单转换成树结构
+export const tools = (list, name) => {
+  let targetList = [];
+  for (let i = 0; i < list.length; i++) {
+    let children = [];
+    if (list[i].meta.access == undefined || name == 'super_admin') {
+      targetList.push({
+        title: list[i].title,
+        nodeId: list[i].name,
+        children: children,
+        checked: true,
+      });
+      list[i].children.map((item) => {
+        children.push({
+          title: item.meta.title,
+          nodeId: item.name,
+          checked: true,
+        });
+      });
+    } else {
+      if (list[i].meta.access.includes(name) == true) {
+        targetList.push({
+          title: list[i].title,
+          nodeId: list[i].name,
+          children: children,
+          checked: true,
+          access: [list[i].name]
+        });
+        list[i].children.map((item) => {
+          if (
+            item.meta.access == undefined ||
+            item.meta.access.includes(name) == true
+          ) {
+            children.push({
+              title: item.meta.title,
+              nodeId: item.name,
+              checked: true,
+            });
+          } else {
+            targetList[i].checked = false
+            children.push({
+              title: item.meta.title,
+              nodeId: item.name,
+              checked: false,
+            });
+          }
+        });
+      } else {
+        targetList.push({
+          title: list[i].title,
+          nodeId: list[i].name,
+          children: children,
+          checked: false,
+        });
+        list[i].children.map((item) => {
+          children.push({
+            title: item.meta.title,
+            nodeId: item.name,
+            checked: false,
+          });
+        })
+      }
+    }
+
+
+    // debugger
+    // if (list[i].meta.access == undefined || name == 'super_admin') {
+    //   targetList.push({
+    //     title: list[i].title,
+    //     nodeId: list[i].name,
+    //     children: children,
+    //     checked: true,
+    //   });
+    // } else {
+    //   if (list[i].meta.access.includes(name) == true) {
+    //     targetList.push({
+    //       title: list[i].title,
+    //       nodeId: list[i].name,
+    //       children: children,
+    //       checked: true,
+    //     });
+    //     list[i].children.map((item) => {
+    //       if (
+    //         item.meta.access == undefined ||
+    //         item.meta.access.includes(name) == true
+    //       ) {
+    //         children.push({
+    //           title: item.meta.title,
+    //           nodeId: item.name,
+    //           checked: true,
+    //         });
+    //       } else {
+    //         targetList[i].checked = false
+
+    //         children.push({
+    //           title: item.meta.title,
+    //           nodeId: item.name,
+    //           checked: false,
+    //         });
+    //       }
+    //     });
+    //   } else {
+    //     targetList.push({
+    //       title: list[i].title,
+    //       nodeId: list[i].name,
+    //       children: children,
+    //       checked: false,
+    //     });
+    //     list[i].children.map(item => {
+    //       if (item.meta.access == undefined) {
+    //         children.push({
+    //           title: item.meta.title,
+    //           nodeId: item.name,
+    //           checked: false,
+    //         });
+    //       } else {
+    //         if (item.meta.access.includes(name) == true) {
+    //           children.push({
+    //             title: item.meta.title,
+    //             nodeId: item.name,
+    //             checked: true,
+    //           });
+    //         } else {
+    //           children.push({
+    //             title: item.meta.title,
+    //             nodeId: item.name,
+    //             checked: false,
+    //           });
+    //         }
+    //       }
+    //     })
+    //   }
+    // }
+  }
+  return targetList;
+}
 
 export const hasChild = (item) => {
   return item.children && item.children.length !== 0

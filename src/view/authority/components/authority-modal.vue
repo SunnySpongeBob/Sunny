@@ -4,12 +4,12 @@
  * @Author: Sunny
  * @Date: 2022-01-12 17:18:25
  * @LastEditors: Sunny
- * @LastEditTime: 2022-01-12 19:00:37
+ * @LastEditTime: 2022-01-14 11:01:17
 -->
 <template>
   <div>
     <div>
-      <Modal class="modal" width="60%" v-model="autModal" title="权限设置">
+      <Modal class="modal" width="60%" v-model="autModal" title="角色设置">
         <div class="content">
           <Form :model="formItem" :label-width="80" label-position="left">
             <FormItem label="Name">
@@ -26,9 +26,10 @@
             </FormItem>
             <FormItem label="Menus">
               <Tree
+                ref="tree"
                 :data="formItem.menus"
                 show-checkbox
-                @on-check-change="treeSelect"
+                @on-check-change="treeCheck"
               ></Tree>
             </FormItem>
           </Form>
@@ -42,12 +43,14 @@
   </div>
 </template>
 <script>
+import { tools } from "@/libs/util";
 export default {
   name: "MyOwenAuthorityModal",
 
   data() {
     return {
       autModal: false,
+      // row:{},
       formItem: {
         name: "",
         desc: "",
@@ -57,22 +60,26 @@ export default {
   },
 
   methods: {
-    treeSelect(data) {
-      console.log("data", data);
+    treeCheck(data) {
+      // console.log("data", data);
     },
-    changeAutModal(tem, item, menus) {
-      console.log("menus77777", menus);
+
+    changeAutModal(tem, item) {
+      // this.row=item
       this.autModal = tem;
       this.formItem.name = item.roleName;
       this.formItem.desc = item.description;
-      this.formItem.menus = menus;
+      let menuList = this.$store.state.app.menus;
+      this.formItem.menus = tools(menuList, item.roleName);
     },
+
     confirm() {
-      this.$Message.info("Clicked ok");
+      let checkNodes = this.$refs.tree.getCheckedNodes();
+      console.log(checkNodes, "///////");
+      // console.log("formItem", this.formItem);
     },
     cancel() {
-      this.$Message.info("Clicked cancel");
-      this.changeAutModal(false);
+      this.autModal = false;
     },
   },
   mounted() {},

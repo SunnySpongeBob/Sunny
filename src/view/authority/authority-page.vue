@@ -4,12 +4,17 @@
  * @Author: Sunny
  * @Date: 2022-01-12 15:42:23
  * @LastEditors: Sunny
- * @LastEditTime: 2022-01-12 18:59:34
+ * @LastEditTime: 2022-01-14 10:42:32
 -->
 <template>
   <div class="all">
-    <div class="top"></div>
+    <div class="top">
+      <common-header :smg="smg1"></common-header>
+    </div>
     <div class="middle">
+      <div>
+        <Button type="primary" class="button">新增角色</Button>
+      </div>
       <div>
         <Table border :columns="roleColumns" :data="roles">
           <template slot-scope="{ row }" slot="roleName">
@@ -19,9 +24,9 @@
             <Button
               type="primary"
               size="small"
-              style="margin-right: 5px"
+              style="margin-right: 20px"
               @click="show(index, row)"
-              >编辑权限</Button
+              >编辑角色</Button
             >
             <Button type="error" size="small" @click="remove(index)"
               >删除</Button
@@ -45,6 +50,7 @@ export default {
 
   data() {
     return {
+      smg1: "111111",
       roleColumns: [
         {
           title: "RoleName",
@@ -91,38 +97,30 @@ export default {
       return this.$store.getters.menuList;
     },
   },
-  mounted() {
-    let menuList = this.$store.getters.menuList;
-    this.menus = [];
-    for (let i = 0; i < menuList.length; i++) {
-      let children = [];
-
-      menuList[i].children.map((item) => {
-        children.push({ title: item.meta.title, nodeId: item.name });
-      });
-      this.menus.push({
-        title: menuList[i].title,
-        nodeId: menuList[i].name,
-        children: children,
-      });
-    }
-
-    console.log("menus-----", this.menus);
-    // this.menus = menus;
-
-    console.log("his.$store.getters.menuList", this.$store.getters.menuList);
-  },
+  mounted() {},
 
   methods: {
     show(index, row) {
       console.log("row", row);
-      this.$refs.authmodal.changeAutModal(true, row, this.menus);
+      this.$refs.authmodal.changeAutModal(true, row);
     },
-    // remove(index) {
-    //   this.data6.splice(index, 1);
-    // },
+    remove(index) {
+      this.$Modal.confirm({
+        title: "删除",
+        content: `<p>您确定要删除角色${this.roles[index].roleName}吗？</p>`,
+        onOk: () => {
+          this.roles.splice(index, 1);
+        },
+        onCancel: () => {
+          this.$Message.info("取消删除");
+        },
+      });
+    },
   },
 };
 </script>
 <style lang="less" scoped>
+.button {
+  margin-bottom: 20px;
+}
 </style>

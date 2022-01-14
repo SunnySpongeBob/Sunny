@@ -32,134 +32,134 @@ export default {
     homeRoute: {},
     local: localRead('local'),
     errorList: [],
-    hasReadErrorPage: false
+    hasReadErrorPage: false,
+    menus: [
+      {
+        name: "_home",
+        title: "首页",
+        meta: {
+          icon: "",
+        },
+        children: [
+          {
+            icon: "md-home",
+            name: "home",
+            meta: {
+              title: "首页",
+              icon: "md-home",
+            },
+          },
+        ],
+      },
+      {
+        name: "authority",
+        title: "权限管理",
+        meta: {
+          icon: "md-rainy",
+
+        },
+        children: [
+          {
+            name: "authority_page",
+            meta: {
+              title: "权限管理",
+              icon: "md-rainy",
+
+            },
+          },
+        ],
+      },
+      {
+        name: "sunny",
+        title: "晴天",
+        meta: {
+          title: "晴天",
+          access: ["admin"],
+          icon: "logo-buffer",
+        },
+        children: [
+          {
+            path: "sunny_page",
+            name: "sunny_page",
+            meta: {
+              title: "组件插槽",
+              access: ["super_admin"],
+              icon: "md-arrow-dropdown-circle",
+            },
+          },
+          {
+            path: "sunny_pagess",
+            name: "sunny_pagess",
+            meta: {
+              title: "动态加载组件",
+              icon: "md-arrow-dropdown-circle",
+            },
+          },
+          {
+            path: "sunny_mixins",
+            name: "sunny_mixins",
+            meta: {
+              title: "混合机制",
+              icon: "md-arrow-dropdown-circle",
+            },
+          },
+        ],
+      },
+      {
+        name: "join",
+        title: "QQ群",
+        meta: {
+          icon: "",
+        },
+        children: [
+          {
+            path: "join_page",
+            name: "join_page",
+            meta: {
+              title: "QQ群",
+              icon: "_qq",
+            },
+          },
+        ],
+      },
+      {
+        name: "components",
+        title: "组件",
+
+        meta: {
+          title: "组件",
+          access: ["admin"],
+          icon: "logo-buffer",
+
+        },
+        children: [
+          {
+            path: "tree_select_page",
+            name: "tree_select_page",
+            meta: {
+              title: "树状下拉选择器",
+              access: ["super_admin"],
+              icon: "md-arrow-dropdown-circle",
+            },
+          },
+          {
+            path: "count_to_page",
+            name: "count_to_page",
+            meta: {
+              title: "数字渐变",
+              icon: "md-arrow-dropdown-circle",
+
+            },
+          },
+        ],
+      },
+    ]
   },
   getters: {
     menuList: (state, getters, rootState) => {
       console.log('rootState', rootState);
-      const menus = [
-        {
-          name: "_home",
-          title: "首页",
-          meta: {
-            icon: "",
-          },
-          children: [
-            {
-              icon: "md-home",
-              name: "home",
-              meta: {
-                title: "首页",
-                icon: "md-home",
-              },
-            },
-          ],
-        },
-        {
-          name: "authority",
-          title: "权限管理",
-          meta: {
-            icon: "",
-          },
-          children: [
-            {
-              icon: "md-home",
-              name: "authority_page",
-              meta: {
-                title: "权限管理",
-                icon: "md-home",
-              },
-            },
-          ],
-        },
-        {
-          name: "sunny",
-          title: "晴天",
-          meta: {
-            title: "晴天",
-            access: ["admin"],
-            icon: "logo-buffer",
-          },
-          children: [
-            {
-              path: "sunny_page",
-              name: "sunny_page",
-              meta: {
-                title: "组件插槽",
-                access: ["super_admin"],
-                icon: "md-arrow-dropdown-circle",
-              },
-            },
-            {
-              path: "sunny_pagess",
-              name: "sunny_pagess",
-              meta: {
-                title: "动态加载组件",
-                icon: "md-arrow-dropdown-circle",
-              },
-            },
-            {
-              path: "sunny_mixins",
-              name: "sunny_mixins",
-              meta: {
-                title: "混合机制",
-                icon: "md-arrow-dropdown-circle",
-              },
-            },
-          ],
-        },
-        {
-          name: "join",
-          title: "QQ群",
-          meta: {
-            icon: "",
-          },
-          children: [
-            {
-              path: "join_page",
-              name: "join_page",
-              meta: {
-                title: "QQ群",
-                icon: "_qq",
-              },
-            },
-          ],
-        },
-        {
-          name: "components",
-          title: "组件",
 
-          meta: {
-            title: "组件",
-            access: ["admin"],
-            icon: "logo-buffer",
-
-          },
-          children: [
-            {
-              path: "tree_select_page",
-              name: "tree_select_page",
-              meta: {
-                title: "树状下拉选择器",
-                access: ["super_admin"],
-                icon: "md-arrow-dropdown-circle",
-
-
-              },
-            },
-            {
-              path: "count_to_page",
-              name: "count_to_page",
-              meta: {
-                title: "数字渐变",
-                icon: "md-arrow-dropdown-circle",
-
-              },
-            },
-          ],
-        },
-      ]
-      return getMenuByRouter(menus, rootState.user.access)
+      return getMenuByRouter(state.menus, rootState.user.access)
       // return getMenuByRouter(routers, rootState.user.access)
 
     },
